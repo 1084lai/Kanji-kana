@@ -4,7 +4,7 @@
 |---|---|
 | **Versione** | 0.1 (bozza) |
 | **Data** | 26 novembre 2026 |
-| **Stato** | Da approvare dall'autore; nessun test ancora eseguito |
+| **Stato** | Da approvare dall'autore; esecuzione statica di partenza eseguita in parte (vedi [rapporto](esecuzione-statica-baseline.md)) |
 | **Si basa su** | [Analisi funzionale](analisi-funzionale.md) (REQ-DIS, KAN, ROM, LEG, CAR, TRA, NFR) e [Analisi tecnica](analisi-tecnica.md) (requisiti nuovi della sezione 2) |
 
 ## 1. Strategia
@@ -78,74 +78,74 @@ Questi requisiti nascono dall'analisi tecnica e dalle decisioni ADR-0001…0004.
 
 | TC | REQ | Pri | Liv. | Passi | Esito atteso | Stato |
 |---|---|---|---|---|---|---|
-| TC-DIS-01 | REQ-DIS-01 | P1 | S, E | Tela vuota; disegna un tratto con puntatore | Compare il tratto; il messaggio iniziale scompare | Da eseguire |
-| TC-DIS-02 | REQ-DIS-02 | P1 | S, E | Disegna D7 (日) con tratti corretti; solleva il dito | Entro 120 ms dal rilascio partono i risultati; fino a 14 candidati; il primo è selezionato; 日 compare tra i primi | Da eseguire |
-| TC-DIS-03 | REQ-DIS-03 | P2 | S, U | Disegna 山, poi uno sfioramento sotto l'1% del lato | Lo sfioramento è ignorato; risultati invariati | Da eseguire |
-| TC-DIS-04 | REQ-DIS-03 | P3 | S, U | Un solo tocco senza movimento su tela vuota | Conta come unico tratto, nessun errore | Da eseguire |
-| TC-DIS-05 | REQ-DIS-04 | P1 | S, E | Tre tratti → «Annulla tratto» | Restano due tratti; risultati ricalcolati | Da eseguire |
-| TC-DIS-06 | REQ-DIS-04 | P2 | S, E | Con zero tratti | «Annulla tratto» e «Cancella» disabilitati; risultati e dettaglio assenti | Da eseguire |
-| TC-DIS-07 | REQ-DIS-05 | P2 | S, E | Seleziona un kanji con JLPT noto | Dettaglio con significati, on/kun, tratti, «JLPT N…», grado scolastico | Da eseguire |
-| TC-DIS-08 | REQ-DIS-06 | P2 | S, E | «Aggiungi al testo» | Il kanji è nel campo; la tela è vuota; «Copia» e cancellazione ultimo carattere funzionano; il link Jisho cerca il testo | Da eseguire |
-| TC-DIS-09 | REQ-DIS-07 | P1 | S, E | «+ Flashcard» due volte sullo stesso kanji | Una sola carta in «Le mie carte»; link Jisho in nuova scheda con `noopener` | Da eseguire |
-| TC-DIS-10 | REQ-DIS-08 | P3 | S, E | Apri la scheda | Il contatore nel titolo è uguale al numero di kanji nei dati (6.395) | Da eseguire |
+| TC-DIS-01 | REQ-DIS-01 | P1 | S, E | Tela vuota; disegna un tratto con puntatore | Compare il tratto; il messaggio iniziale scompare | S: Superato; resto da eseguire |
+| TC-DIS-02 | REQ-DIS-02 | P1 | S, E | Disegna D7 (日) con tratti corretti; solleva il dito | Entro 120 ms dal rilascio partono i risultati; fino a 14 candidati; il primo è selezionato; 日 compare tra i primi | S: Superato; resto da eseguire |
+| TC-DIS-03 | REQ-DIS-03 | P2 | S, U | Disegna 山, poi uno sfioramento sotto l'1% del lato | Lo sfioramento è ignorato; risultati invariati | S: Superato; resto da eseguire |
+| TC-DIS-04 | REQ-DIS-03 | P3 | S, U | Un solo tocco senza movimento su tela vuota | Conta come unico tratto, nessun errore | S: Superato; resto da eseguire |
+| TC-DIS-05 | REQ-DIS-04 | P1 | S, E | Tre tratti → «Annulla tratto» | Restano due tratti; risultati ricalcolati | S: Superato; resto da eseguire |
+| TC-DIS-06 | REQ-DIS-04 | P2 | S, E | Con zero tratti | «Annulla tratto» e «Cancella» disabilitati; risultati e dettaglio assenti | S: Superato; resto da eseguire |
+| TC-DIS-07 | REQ-DIS-05 | P2 | S, E | Seleziona un kanji con JLPT noto | Dettaglio con significati, on/kun, tratti, «JLPT N…», grado scolastico | S: Superato; resto da eseguire |
+| TC-DIS-08 | REQ-DIS-06 | P2 | S, E | «Aggiungi al testo» | Il kanji è nel campo; la tela è vuota; «Copia» e cancellazione ultimo carattere funzionano; il link Jisho cerca il testo | S: Superato; resto da eseguire |
+| TC-DIS-09 | REQ-DIS-07 | P1 | S, E | «+ Flashcard» due volte sullo stesso kanji | Una sola carta in «Le mie carte»; link Jisho in nuova scheda con `noopener` | S: Superato; resto da eseguire |
+| TC-DIS-10 | REQ-DIS-08 | P3 | S, E | Apri la scheda | Il contatore nel titolo è uguale al numero di kanji nei dati (6.395) | S: Superato; resto da eseguire |
 
 ### 3.2 Kana
 
 | TC | REQ | Pri | Liv. | Passi | Esito atteso | Stato |
 |---|---|---|---|---|---|---|
-| TC-KAN-01 | REQ-KAN-01 | P2 | S, E | Apri la scheda Kana | Cinque sezioni (gojūon, dakuten, handakuten, yōon, suoni stranieri), con romaji Hepburn sotto ogni kana | Da eseguire |
-| TC-KAN-02 | REQ-KAN-02 | P2 | S, E | Scegli Katakana | Ogni cella mostra il katakana corrispondente | Da eseguire |
-| TC-KAN-03 | REQ-KAN-03 | P1 | S, U, E | Tocca こ・ん・に・ち・は | Romaji mostrato «konnichiwa»; «Copia» e cancella ultimo funzionano | Da eseguire |
-| TC-KAN-04 | REQ-KAN-04 | P3 | S, E | Apri la sezione di spiegazione | Presente e leggibile | Da eseguire |
+| TC-KAN-01 | REQ-KAN-01 | P2 | S, E | Apri la scheda Kana | Cinque sezioni (gojūon, dakuten, handakuten, yōon, suoni stranieri), con romaji Hepburn sotto ogni kana | S: Superato; resto da eseguire |
+| TC-KAN-02 | REQ-KAN-02 | P2 | S, E | Scegli Katakana | Ogni cella mostra il katakana corrispondente | S: Superato; resto da eseguire |
+| TC-KAN-03 | REQ-KAN-03 | P1 | S, U, E | Tocca こ・ん・に・ち・は | Romaji mostrato «konnichiwa»; «Copia» e cancella ultimo funzionano | S: Fallito (DEF-01); resto da eseguire |
+| TC-KAN-04 | REQ-KAN-04 | P3 | S, E | Apri la sezione di spiegazione | Presente e leggibile | S: Superato; resto da eseguire |
 
 ### 3.3 Romaji
 
 | TC | REQ | Pri | Liv. | Passi | Esito atteso | Stato |
 |---|---|---|---|---|---|---|
-| TC-ROM-01 | REQ-ROM-01 | P1 | S, U, E | Scrivi «konnichiwa» in modalità Romaji → Kana | Hiragana こんにちは, aggiornato mentre si scrive; katakana in parallelo | Da eseguire |
-| TC-ROM-02 | REQ-ROM-02 | P2 | S, U | «tya», «si», «shi», «tu», «hu», «zi», «sya», «xtu» | ちゃ, し, し, つ, ふ, じ, しゃ, っ | Da eseguire |
-| TC-ROM-03 | REQ-ROM-03 | P1 | S, U | «gakkou», «rāmen» (katakana), «nn», «n'», «-» | がっこう; ラーメン; ん; ん; ー | Da eseguire |
-| TC-ROM-04 | REQ-ROM-04 | P1 | S, U, E | D1 | Frase in scrittura mista, particelle は e で, parole con alternative evidenziate e scelta di un'altra scrittura | Da eseguire |
-| TC-ROM-05 | REQ-ROM-05 | P1 | S, U | «ラーメン» in modalità Kana → Romaji | «rāmen»; っ raddoppia; «n'» davanti a vocale | Da eseguire |
+| TC-ROM-01 | REQ-ROM-01 | P1 | S, U, E | Scrivi «konnichiwa» in modalità Romaji → Kana | Hiragana こんにちは, aggiornato mentre si scrive; katakana in parallelo | S: Fallito (DEF-01); resto da eseguire |
+| TC-ROM-02 | REQ-ROM-02 | P2 | S, U | «tya», «si», «shi», «tu», «hu», «zi», «sya», «xtu» | ちゃ, し, し, つ, ふ, じ, しゃ, っ | S: Superato; resto da eseguire |
+| TC-ROM-03 | REQ-ROM-03 | P1 | S, U | «gakkou», «rāmen» (katakana), «nn», «n'», «-» | がっこう; ラーメン; ん; ん; ー | S: Fallito (DEF-02); resto da eseguire |
+| TC-ROM-04 | REQ-ROM-04 | P1 | S, U, E | D1 | Frase in scrittura mista, particelle は e で, parole con alternative evidenziate e scelta di un'altra scrittura | S: Superato; resto da eseguire |
+| TC-ROM-05 | REQ-ROM-05 | P1 | S, U | «ラーメン» in modalità Kana → Romaji | «rāmen»; っ raddoppia; «n'» davanti a vocale | S: Superato; resto da eseguire |
 | TC-ROM-06 | REQ-ROM-06 | P3 | S, E | Tocca un esempio rapido e «Copia» | Campo riempito, risultati aggiornati, testo copiato | Da eseguire |
 
 ### 3.4 Leggi
 
 | TC | REQ | Pri | Liv. | Passi | Esito atteso | Stato |
 |---|---|---|---|---|---|---|
-| TC-LEG-01 | REQ-LEG-01 | P1 | S, U, E | Incolla D3 su più righe | Ogni parola è un elemento selezionabile; categorie (parole, katakana, kanji ignoti, hiragana ignoto, punteggiatura) distinte | Da eseguire |
+| TC-LEG-01 | REQ-LEG-01 | P1 | S, U, E | Incolla D3 su più righe | Ogni parola è un elemento selezionabile; categorie (parole, katakana, kanji ignoti, hiragana ignoto, punteggiatura) distinte | S: Superato; resto da eseguire |
 | TC-LEG-02 | REQ-LEG-02 | P1 | S, E | Modalità «Tutti», «Solo nuove», «Nessuno»; opzione romaji | Furigana allineato ai caratteri; in «Solo nuove» una parola nota perde il furigana; romaji sotto ogni parola | Da eseguire |
-| TC-LEG-03 | REQ-LEG-03 | P1 | S, U, E | Tocca D4 (食べました) | Pannello con lettura, romaji, categoria, significati, forma base 食べる e «forma cortese passata» | Da eseguire |
-| TC-LEG-04 | REQ-LEG-04 | P3 | S, E | Tocca «は» come particella | Nota in italiano che spiega la lettura «wa» | Da eseguire |
+| TC-LEG-03 | REQ-LEG-03 | P1 | S, U, E | Tocca D4 (食べました) | Pannello con lettura, romaji, categoria, significati, forma base 食べる e «forma cortese passata» | S: Superato; resto da eseguire |
+| TC-LEG-04 | REQ-LEG-04 | P3 | S, E | Tocca «は» come particella | Nota in italiano che spiega la lettura «wa» | S: Superato; resto da eseguire |
 | TC-LEG-05 | REQ-LEG-05 | P1 | S, E | «La conosco già» su una parola; ricarica; tocca di nuovo | Dopo il ricaricamento resta nota; tocco di nuovo la annulla; salvata in `kn_known_v1` | Da eseguire |
 | TC-LEG-06 | REQ-LEG-06 | P2 | S, E | Glossario di un testo con N parole non note; «Aggiungi le nuove alle flashcard» | Messaggio col numero di carte create; conteggi corretti; copia tabulata; azzeramento delle note | Da eseguire |
-| TC-LEG-07 | REQ-LEG-07 | P3 | S, E | «Esempio», «Pulisci» | Frase precompilata; testo e analisi spariscono | Da eseguire |
+| TC-LEG-07 | REQ-LEG-07 | P3 | S, E | «Esempio», «Pulisci» | Frase precompilata; testo e analisi spariscono | S: Superato (DEF-14); resto da eseguire |
 
 ### 3.5 Carte
 
 | TC | REQ | Pri | Liv. | Passi | Esito atteso | Stato |
 |---|---|---|---|---|---|---|
-| TC-CAR-01 | REQ-CAR-01 | P1 | S, E | Apri le carte senza progressi | Mazzi predefiniti con conteggi nuove/apprendimento/ripasso; nuove ≤ limite giornaliero; stato «Studia/Fatto/Vuoto» | Da eseguire |
-| TC-CAR-02 | REQ-CAR-02 | P1 | S, E | Mostra risposta; tasto 3; Spazio/Invio | Rivelazione, «Bene», carta successiva; intervalli sui quattro pulsanti | Da eseguire |
-| TC-CAR-03 | REQ-CAR-03 | P1 | S, U | Carta nuova: «Ancora»; poi sequenze «Bene» e «Facile»; lapsus | «Ancora» → 1 min; passi 1 e 10 min; primo intervallo 1 giorno (4 con «Facile»); EF iniziale 2,5, minimo 1,3; lapsus dimezza l'intervallo | Da eseguire |
-| TC-CAR-04 | REQ-CAR-04 | P2 | S, U, E | Limite 10; studia 10 nuove; cambia giorno | L'11ª non è proposta; il giorno dopo il conteggio si azzera; valori ammessi 0-200 | Da eseguire |
-| TC-CAR-05 | REQ-CAR-05 | P2 | S, U, E | Rispondi e premi annulla | Stato della carta ripristinato com'era | Da eseguire |
-| TC-CAR-06 | REQ-CAR-06 | P3 | S, E | Opzione inverti su un mazzo di kana | Fronte con romaji | Da eseguire |
-| TC-CAR-07 | REQ-CAR-07 | P2 | S, E | Carta manuale; da Disegna e Leggi; duplicato | Carte create; al duplicato compare «Già nelle carte» | Da eseguire |
-| TC-CAR-08 | REQ-CAR-08 | P1 | S, E | Progressi dopo ricaricamento; storage non disponibile | Progressi in `fc_v1` ricaricati; con storage bloccato compare l'avviso | Da eseguire |
-| TC-CAR-09 | REQ-CAR-09 | P1 | S, E | Esporta e ripristina un backup valido; «Azzera» una volta e due volte entro 3 secondi | Progressi tornati allo stato salvato; con una sola pressione non si azzera; con la seconda entro 3 secondi sì | Da eseguire |
+| TC-CAR-01 | REQ-CAR-01 | P1 | S, E | Apri le carte senza progressi | Mazzi predefiniti con conteggi nuove/apprendimento/ripasso; nuove ≤ limite giornaliero; stato «Studia/Fatto/Vuoto» | S: Superato; resto da eseguire |
+| TC-CAR-02 | REQ-CAR-02 | P1 | S, E | Mostra risposta; tasto 3; Spazio/Invio | Rivelazione, «Bene», carta successiva; intervalli sui quattro pulsanti | S: Superato; resto da eseguire |
+| TC-CAR-03 | REQ-CAR-03 | P1 | S, U | Carta nuova: «Ancora»; poi sequenze «Bene» e «Facile»; lapsus | «Ancora» → 1 min; passi 1 e 10 min; primo intervallo 1 giorno (4 con «Facile»); EF iniziale 2,5, minimo 1,3; lapsus dimezza l'intervallo | S: Superato; resto da eseguire |
+| TC-CAR-04 | REQ-CAR-04 | P2 | S, U, E | Limite 10; studia 10 nuove; cambia giorno | L'11ª non è proposta; il giorno dopo il conteggio si azzera; valori ammessi 0-200 | S: Superato; resto da eseguire |
+| TC-CAR-05 | REQ-CAR-05 | P2 | S, U, E | Rispondi e premi annulla | Stato della carta ripristinato com'era | S: Superato (DEF-07); resto da eseguire |
+| TC-CAR-06 | REQ-CAR-06 | P3 | S, E | Opzione inverti su un mazzo di kana | Fronte con romaji | S: Superato (DEF-08); resto da eseguire |
+| TC-CAR-07 | REQ-CAR-07 | P2 | S, E | Carta manuale; da Disegna e Leggi; duplicato | Carte create; al duplicato compare «Già nelle carte» | S: Fallito (DEF-06); resto da eseguire |
+| TC-CAR-08 | REQ-CAR-08 | P1 | S, E | Progressi dopo ricaricamento; storage non disponibile | Progressi in `fc_v1` ricaricati; con storage bloccato compare l'avviso | S: Superato; resto da eseguire |
+| TC-CAR-09 | REQ-CAR-09 | P1 | S, E | Esporta e ripristina un backup valido; «Azzera» una volta e due volte entro 3 secondi | Progressi tornati allo stato salvato; con una sola pressione non si azzera; con la seconda entro 3 secondi sì | S: Superato; resto da eseguire |
 
 ### 3.6 Trasversali e non funzionali
 
 | TC | REQ | Pri | Liv. | Passi | Esito atteso | Stato |
 |---|---|---|---|---|---|---|
-| TC-TRA-01 | REQ-TRA-01 | P2 | S, E | Cambia scheda con pulsanti e con `#disegna`, `#kana`… | Le cinque schede si aprono; l'indirizzo è coerente; il ricaricamento riapre la scheda | Da eseguire |
-| TC-TRA-02 | REQ-TRA-02 | P1 | S, E | Controlla le richieste di rete in uso normale | Nessuna richiesta oltre ai link a Jisho (nella versione 1.0: solo quelle attese, vedi TC-ACC e TC-PRI) | Da eseguire |
-| TC-TRA-03 | REQ-TRA-03 | P3 | E | Emula tema chiaro e scuro | Colori coerenti e leggibili in entrambi | Da eseguire |
-| TC-TRA-04 | REQ-TRA-04 | P1 | E, M | Viewport da telefono; tocco e penna sulla tela | Layout usabile; la pagina non scorre durante il disegno (`touch-action: none`) | Da eseguire |
-| TC-TRA-05 | REQ-TRA-05 | P3 | S | Cerca testi in italiano e significati in inglese | Interfaccia in italiano; dizionari in inglese | Da eseguire |
-| TC-TRA-06 | REQ-TRA-06 | P3 | E | «Copia» con clipboard disponibile e bloccata | Testo copiato oppure messaggio alternativo | Da eseguire |
-| TC-NFR-01 | NFR-01 | P1 | S, E | Con login disattivato, controlla ciò che esce dal dispositivo | Nessun dato personale esce; con login solo l'account e la tabella `progress` | Da eseguire |
+| TC-TRA-01 | REQ-TRA-01 | P2 | S, E | Cambia scheda con pulsanti e con `#disegna`, `#kana`… | Le cinque schede si aprono; l'indirizzo è coerente; il ricaricamento riapre la scheda | S: Superato (DEF-10); resto da eseguire |
+| TC-TRA-02 | REQ-TRA-02 | P1 | S, E | Controlla le richieste di rete in uso normale | Nessuna richiesta oltre ai link a Jisho (nella versione 1.0: solo quelle attese, vedi TC-ACC e TC-PRI) | S: Superato; resto da eseguire |
+| TC-TRA-03 | REQ-TRA-03 | P3 | E | Emula tema chiaro e scuro | Colori coerenti e leggibili in entrambi | S: Superato; resto da eseguire |
+| TC-TRA-04 | REQ-TRA-04 | P1 | E, M | Viewport da telefono; tocco e penna sulla tela | Layout usabile; la pagina non scorre durante il disegno (`touch-action: none`) | S: Superato; resto da eseguire |
+| TC-TRA-05 | REQ-TRA-05 | P3 | S | Cerca testi in italiano e significati in inglese | Interfaccia in italiano; dizionari in inglese | S: Superato; resto da eseguire |
+| TC-TRA-06 | REQ-TRA-06 | P3 | E | «Copia» con clipboard disponibile e bloccata | Testo copiato oppure messaggio alternativo | S: Superato; resto da eseguire |
+| TC-NFR-01 | NFR-01 | P1 | S, E | Con login disattivato, controlla ciò che esce dal dispositivo | Nessun dato personale esce; con login solo l'account e la tabella `progress` | S: Superato; resto da eseguire |
 | TC-NFR-02 | NFR-02 | P2 | E, M | Misura riconoscimento e primo caricamento su telefono di fascia media | Soglie da fissare dopo la prima misura (obiettivo iniziale: da definire) | Da eseguire |
 | TC-NFR-03 | NFR-03 | P2 | Q | Misura il peso trasferito al primo caricamento | Obiettivo da fissare dopo la separazione dei dati | Da eseguire |
 | TC-NFR-04 | NFR-04 | P2 | E | Chromium, Firefox, WebKit | Le funzioni principali funzionano nei tre | Da eseguire |
@@ -162,10 +162,10 @@ Questi requisiti nascono dall'analisi tecnica e dalle decisioni ADR-0001…0004.
 | TC-ACC-03 | REQ-ACC-03 | P2 | E, M | Ricarica dopo il login; annulla il login a metà; blocca la rete durante il login | Sessione mantenuta; in caso di annullamento o errore, messaggio chiaro e app usabile | Da eseguire |
 | TC-SYN-01 | REQ-SYN-01 | P1 | E | Utente A con 5 carte locali e 8 in cloud, con 3 in comune | Dopo il primo accesso le carte sono l'unione; per le 3 in comune vince `updated_at` più recente; nessuna perdita | Da eseguire |
 | TC-SYN-02 | REQ-SYN-02 | P1 | E | Offline, studia 5 carte; torna online | Le modifiche arrivano nel cloud e si ritrovano da un altro dispositivo | Da eseguire |
-| TC-SYN-03 | REQ-SYN-03 | P1 | U, E | D5: backup valido, alterato, di versione futura | Il valido si ripristina; gli altri sono rifiutati con messaggio e i progressi non cambiano | Da eseguire |
+| TC-SYN-03 | REQ-SYN-03 | P1 | U, E | D5: backup valido, alterato, di versione futura | Il valido si ripristina; gli altri sono rifiutati con messaggio e i progressi non cambiano | S: Fallito (DEF-04); resto da eseguire |
 | TC-SEC-01 | REQ-SEC-01 | P1 | E | D6: A scrive la sua riga; B tenta di leggere, modificare e cancellare la riga di A; utente anonimo tenta tutte le operazioni | B e anonimo: nessun dato letto né modificato (0 righe o errore) | Da eseguire |
 | TC-SEC-02 | REQ-SEC-02 | P1 | Q | gitleaks sul repository e sui file pubblicati; ricerca di `service_role` | Nessun segreto; nessuna chiave `service_role` | Da eseguire |
-| TC-SEC-03 | REQ-SEC-03 | P2 | S, Q | Semgrep sull'uso di `innerHTML`; verifica dell'intestazione CSP | Nessun inserimento di dati esterni con `innerHTML`; CSP presente e senza `unsafe-inline` per gli script (dopo la separazione) | Da eseguire |
+| TC-SEC-03 | REQ-SEC-03 | P2 | S, Q | Semgrep sull'uso di `innerHTML`; verifica dell'intestazione CSP | Nessun inserimento di dati esterni con `innerHTML`; CSP presente e senza `unsafe-inline` per gli script (dopo la separazione) | S: Fallito (DEF-11); resto da eseguire |
 | TC-PRI-01 | REQ-PRI-01 | P1 | E | Primo avvio senza consenso; controlla le richieste di rete | Nessuno script pubblicitario o di analisi con cookie; informativa e cookie policy raggiungibili; con consenso negato nulla parte | Da eseguire |
 | TC-PRI-02 | REQ-PRI-02 | P1 | E, M | Utente di prova: «Cancella account e dati» | Riga in `progress` e utente rimossi; i dati locali restano finché l'utente non li azzera | Da eseguire |
 | TC-CRE-01 | REQ-CRE-01 | P1 | S, E | Apri «Crediti» | KanjiVG, KANJIDIC, JMdict con autori, licenze (CC BY-SA) e link; licenza del codice (MIT) | Da eseguire |
@@ -181,7 +181,21 @@ Prima di modificare il codice si eseguono **tutti i TC con livello S** sull'app 
 
 | ID | TC | Descrizione | Pri | Stato |
 |---|---|---|---|---|
-| — | — | Nessun difetto registrato (nessun test eseguito) | — | — |
+| DEF-01 | TC-ROM-01, TC-KAN-03 | «konnichiwa» dà こんにちわ e こんにちは dà «konnichiha»: l'app traslittera senza riconoscere la lettura particolare di は in questa parola. I criteri dell'analisi funzionale chiedono こんにちは e «konnichiwa». | P2 | Aperto: decisione dell'autore (correggere il codice con le eccezioni こんにちは/こんばんは, o rettificare il criterio) |
+| DEF-02 | TC-ROM-03 | «nn» produce due ん; il requisito dice che «nn» dà ん. Esempio: «kannji» → かんんじ (atteso かんじ). | P2 | Aperto |
+| DEF-03 | TC-ROM-04 | «kanji» in scrittura mista dà 幹事 invece di 漢字: la classifica del dizionario non favorisce la parola più comune. | P3 | Aperto |
+| DEF-04 | TC-SYN-03 | Il ripristino del backup e il caricamento da `localStorage` non validano la struttura dei dati (OSS-02); un salvataggio corrotto mostra l'avviso «salvataggio non possibile», che è il messaggio sbagliato, e il salvataggio successivo lo sovrascrive. | P2 | Aperto (si risolve con la validazione della versione 1.0) |
+| DEF-05 | TC-DIS-09 | In Disegna «+ Flashcard» mostra «Aggiunta ✓» anche se la carta esiste già (il messaggio «Già nelle carte» c'è solo in Leggi). | P3 | Aperto |
+| DEF-06 | TC-CAR-07 | Le carte manuali hanno un id con `Date.now()`: i duplicati sono ammessi, contro il requisito. | P3 | Aperto |
+| DEF-07 | TC-CAR-05 | L'annullamento resta attivo uscendo dal mazzo: in un altro mazzo mostra «Hai finito per ora» anche se ci sono carte. | P3 | Aperto |
+| DEF-08 | TC-CAR-06 | Carte inverse ambigue: じ/ぢ (ji) e ず/づ (zu) hanno lo stesso fronte. | P3 | Aperto |
+| DEF-09 | TC-DIS-01, TC-TRA-04 | La tela non filtra per `pointerId` (tocchi multipli, palmo) e i tratti non sono riscalati se la finestra cambia dimensione o si ruota il telefono. Da confermare con Playwright. | P3 | Da verificare |
+| DEF-10 | TC-TRA-01 | Il tab si legge dall'indirizzo solo al caricamento; manca l'ascolto di `hashchange` (il tasto Indietro non cambia scheda). | P3 | Aperto |
+| DEF-11 | TC-SEC-03 | Nessuna Content-Security-Policy. Atteso per la versione attuale; da risolvere dopo la separazione dei file. | P2 | Aperto |
+| DEF-12 | TC-LEG-05 | `saveKnown` ignora in silenzio gli errori di salvataggio (a differenza dei progressi delle carte). | P3 | Aperto |
+| DEF-13 | TC-ROM-01 | I segnaposto dei macron sono caratteri invisibili dell'area privata (U+E001-E005); è voluto (OSS-03), ma fragile per la manutenzione. | P3 | Aperto: sostituire con costanti con nome |
+| DEF-14 | TC-LEG-07 | La frase d'esempio di «Esempio» proviene con ogni probabilità da un'opera protetta (OSS-07, BKL-04). | P1 per il rilascio | Aperto: da sostituire prima di pubblicare |
+| DEF-15 | — | Codice morto: `maxLen` inutilizzato in `prepare`, condizione `!true` in `renderDecks`. | P3 | Aperto |
 
 ## 6. Tracciabilità
 
