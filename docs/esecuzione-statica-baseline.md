@@ -4,7 +4,7 @@
 |---|---|
 | **Data** | 26 novembre 2026 |
 | **Oggetto** | `index.html` attuale (logica alle righe 251-1388), commit `a6cdefb` |
-| **Esito complessivo** | 36 TC con parte statica eseguiti: 30 superati, 6 falliti; 15 difetti registrati ([test book](test-book.md), sezione 5) |
+| **Esito complessivo** | 41 TC su 64 con parte statica eseguita: 35 superati, 6 falliti (23 ancora da eseguire); 15 difetti registrati ([test book](test-book.md), sezione 5) |
 
 ## Metodo e limiti
 
