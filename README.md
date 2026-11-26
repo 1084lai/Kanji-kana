@@ -35,7 +35,7 @@ python3 -m http.server 8000
 Versione iniziale, in fase di analisi e messa in qualità. I documenti sono in [`docs/`](docs/):
 
 - [Analisi funzionale "as-is"](docs/analisi-funzionale.md): requisiti ricostruiti dal codice, criteri di accettazione e punti aperti.
-- Decisioni di progetto (ADR): [separare dati e codice](docs/adr/0001-separare-dati-e-codice.md) e [licenza del codice](docs/adr/0002-licenza-del-codice.md), entrambe accettate.
+- Decisioni di progetto (ADR): [separare dati e codice](docs/adr/0001-separare-dati-e-codice.md) e [licenza del codice](docs/adr/0002-licenza-del-codice.md), entrambe accettate; [strategia di distribuzione e monetizzazione](docs/adr/0003-strategia-distribuzione-e-monetizzazione.md), in stato proposta.
 
 Prossime tappe: analisi tecnica, test book con casi tracciati ai requisiti, test automatici con Playwright, pubblicazione online e, più avanti, login e sincronizzazione dei progressi.
 
