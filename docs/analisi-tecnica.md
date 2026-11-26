@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Versione** | 0.1 (bozza) |
+| **Versione** | 0.1 |
 | **Data** | 26 novembre 2026 |
-| **Stato** | Da approvare dall'autore |
+| **Stato** | Approvata dall'autore il 26 novembre 2026 |
 | **Parte da** | [Analisi funzionale as-is](analisi-funzionale.md), ADR-0001, ADR-0002, ADR-0003 |
 | **Obiettivo** | Pubblicare la web app (fase 1 di ADR-0003) spendendo il meno possibile |
 
