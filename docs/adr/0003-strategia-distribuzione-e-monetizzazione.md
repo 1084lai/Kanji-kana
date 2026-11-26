@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Stato** | Proposta (da approvare dall'autore) |
+| **Stato** | Accettata (approvata dall'autore il 26 novembre 2026) |
 | **Data** | 26 novembre 2026 |
 | **Collegato a** | ADR-0001 (separazione dati e codice), ADR-0002 (licenza) |
 
