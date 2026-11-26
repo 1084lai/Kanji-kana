@@ -1,9 +1,10 @@
 // Schede Kana, Romaji, Leggi e Carte (interfaccia).
 import {$, copy} from './util.js';
 import {KMETA} from './data.js';
-import {BASE, DAK, EXTRA, HAN, YOON, k2r, r2k, toHira, toKata} from './romaji.js';
+import {BASE, DAK, EXTRA, HAN, YOON, k2r, kanaCards, r2k, toHira, toKata} from './romaji.js';
 import {JWD, alignRuby, isGrammar, isKanji, kanjiSegments, loadJW, posIt, tokKey, tokenizeLine} from './reader.js';
 import {dayNum, fmtIv, sched} from './srs.js';
+import {SCHEMA_VERSION, validateProgress, encodeBackup, decodeBackup} from './progress.js';
 const TABS = ['disegna','kana','romaji','leggi','carte','crediti'];
 function showTab(t){
   if (!TABS.includes(t)) t = 'disegna';
@@ -51,7 +52,7 @@ const SECT = [
 ];
 function renderKana(){
   const box = $('kgrid'); box.innerHTML = '';
-  for (const [title, desc, cols, groups, pairUp] of SECT){
+  for (const [title, desc, cols, groups] of SECT){
     const sec = document.createElement('div'); sec.className = 'ksec';
     sec.innerHTML = '<h3></h3><p></p>'; sec.firstChild.textContent = title; sec.lastChild.textContent = desc;
     const g = document.createElement('div'); g.className = 'kg'; g.style.setProperty('--c', cols);
@@ -105,7 +106,10 @@ for (const b of document.querySelectorAll('[data-c]')) b.onclick = () => copy(b.
 // ---- scheda Leggi: affiancamento alla lettura
 let TOKS = [], SELT = -1, FMODE = 'all', ROMA = false, KNOWN = new Set();
 try { KNOWN = new Set(JSON.parse(localStorage.getItem('kn_known_v1') || '[]')); } catch(_){}
-function saveKnown(){ try { localStorage.setItem('kn_known_v1', JSON.stringify([...KNOWN])); } catch(_){} }
+function saveKnown(){
+  try { localStorage.setItem('kn_known_v1', JSON.stringify([...KNOWN])); $('l-warn').hidden = true; }
+  catch(_){ $('l-warn').hidden = false; }
+}
 function h(tag, cls, text){ const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
 function renderText(){
   const out = $('lout'); out.innerHTML = '';
@@ -234,15 +238,23 @@ $('l-addg').onclick = () => {
 $('l-reset').onclick = () => { KNOWN = new Set(); saveKnown(); renderText(); renderPanel(); };
 
 // ---- flashcard in stile Anki (ripetizione dilazionata)
-let FC = {cards: {}, cust: [], set: {nw: 10, rev: false}, st: {day: 0, nd: {}, rv: 0}}, FC_NOSAVE = false;
+let FC = {cards: {}, cust: [], set: {nw: 10, rev: false}, st: {day: 0, nd: {}, rv: 0}}, FC_NOSAVE = false, FC_CORRUPT = false;
 function fcLoad(){
-  try { const s = localStorage.getItem('fc_v1'); if (s){ const o = JSON.parse(s); FC.cards = o.cards || {}; FC.cust = o.cust || []; FC.set = Object.assign(FC.set, o.set || {}); FC.st = Object.assign(FC.st, o.st || {}); } }
-  catch(_){ FC_NOSAVE = true; }
+  let s = null;
+  try { s = localStorage.getItem('fc_v1'); } catch(_){ FC_NOSAVE = true; return; }   // archivio non disponibile
+  if (!s) return;
+  try { Object.assign(FC, validateProgress(JSON.parse(s))); }
+  catch(_){                                                                           // dati illeggibili: se ne conserva una copia
+    FC_CORRUPT = true;
+    try { localStorage.setItem('fc_v1_illeggibile', s); } catch(__){}
+  }
 }
-function fcSave(){ try { localStorage.setItem('fc_v1', JSON.stringify(FC)); } catch(_){ FC_NOSAVE = true; const w = $('fc-warn'); if (w) w.hidden = false; } }
+function fcSave(){
+  try { localStorage.setItem('fc_v1', JSON.stringify({...FC, v: SCHEMA_VERSION})); }
+  catch(_){ FC_NOSAVE = true; const w = $('fc-warn'); if (w) w.hidden = false; }
+}
 function fcDay(){ const d = dayNum(Date.now()); if (FC.st.day !== d) FC.st = {day: d, nd: {}, rv: 0}; }
 // ---- mazzi
-const KROM = {'ぢ':'ji (di)','づ':'zu (du)','を':'o (wo)'};
 const DECKS = [
   {id:'hira', name:'Hiragana', sub:'ひらがな', kind:'kana'}, {id:'kata', name:'Katakana', sub:'カタカナ', kind:'kana'},
   {id:'kj5', name:'Kanji N5', sub:'i più semplici', kind:'kanji', lvl:5}, {id:'kj4', name:'Kanji N4', kind:'kanji', lvl:4}, {id:'kj3', name:'Kanji N3', kind:'kanji', lvl:3},
@@ -256,8 +268,7 @@ function cardsOf(d){
   if (DCACHE[d.id]) return DCACHE[d.id];
   let out = [];
   if (d.kind === 'kana'){
-    const kt = d.id === 'kata', groups = [BASE, DAK, HAN, YOON].concat(kt ? [EXTRA] : []);
-    for (const g of groups) for (const row of g) for (const c of row) if (c){ const k = kt ? toKata(c[0]) : c[0]; out.push({id: (kt ? 'k:' : 'h:') + k, k, r: KROM[c[0]] || c[1], kind: 'kana'}); }
+    out = kanaCards(d.id === 'kata');
   } else if (d.kind === 'kanji'){
     const M = KMETA;
     out = Object.keys(M).filter(ch => M[ch].j === d.lvl).sort((a, b) => (M[a].n || 0) - (M[b].n || 0)).map(ch => ({id: 'j:' + ch, ch, kind: 'kanji'}));
@@ -300,7 +311,7 @@ function wordCard(c, text){
   const rd = c.baseRd || c.rd, sf = c.base || c.surf || text;
   return {id: 'u:' + sf + '|' + (rd || ''), f: sf, b: [(rd || '') + (rd ? ' (' + k2r(rd) + ')' : ''), (c.gloss || c.note || '').split('; ').slice(0, 3).join(' · '), posIt(c.pos)]};
 }
-window.addEventListener('fc-add', e => { const d = e.detail || {}; if (d.type === 'kanji' && d.ch) addCustom(kanjiCard(d.ch)); renderDecks(); });
+window.addEventListener('fc-add', e => { const d = e.detail || {}; if (d.type === 'kanji' && d.ch){ const ok = addCustom(kanjiCard(d.ch)); if (d.done) d.done(ok); } renderDecks(); });
 // ---- interfaccia
 let CD = null, CC = null, SHOWN = false, UNDO = null;
 function renderDecks(){
@@ -309,8 +320,6 @@ function renderDecks(){
   const tot = FC.st.rv;
   $('fc-today').textContent = 'Oggi: ' + tot + (tot === 1 ? ' risposta' : ' risposte') + ' · carte studiate in totale: ' + Object.keys(FC.cards).length;
   for (const d of DECKS){
-    const n = d.kind === 'custom' ? FC.cust.length : null;
-    if (d.kind === 'custom' && !n && !true) continue;
     const row = h('div', 'dk');
     const info = h('div', 'di'); info.appendChild(h('div', 'dn', d.name)); if (d.sub) info.appendChild(h('div', 'ds', d.sub));
     row.appendChild(info);
@@ -321,10 +330,10 @@ function renderDecks(){
     b.disabled = ct.total === 0; b.onclick = () => startStudy(d);
     row.appendChild(b); box.appendChild(row);
   }
-  $('fc-nw').value = String(FC.set.nw); $('fc-rev').checked = !!FC.set.rev; $('fc-warn').hidden = !FC_NOSAVE;
+  $('fc-nw').value = String(FC.set.nw); $('fc-rev').checked = !!FC.set.rev; $('fc-warn').hidden = !FC_NOSAVE; $('fc-corrupt').hidden = !FC_CORRUPT;
 }
-function startStudy(d){ CD = d; $('fc-home').hidden = true; $('fc-study').hidden = false; nextCard(); }
-function leaveStudy(){ CD = null; CC = null; $('fc-study').hidden = true; $('fc-home').hidden = false; renderDecks(); }
+function startStudy(d){ CD = d; UNDO = null; $('fc-undo').disabled = true; $('fc-home').hidden = true; $('fc-study').hidden = false; nextCard(); }
+function leaveStudy(){ CD = null; CC = null; UNDO = null; $('fc-study').hidden = true; $('fc-home').hidden = false; renderDecks(); }
 function nextCard(){
   UNDO && ($('fc-undo').disabled = false);
   CC = pickCard(CD); SHOWN = false; renderStudy();
@@ -333,7 +342,7 @@ function cardFace(c, back){
   const f = h('div', 'face jp');
   if (c.kind === 'kana'){
     const rev = !!FC.set.rev;
-    if (!back){ f.appendChild(h('div', 'fbig', rev ? c.r.split(' ')[0] : c.k)); if (rev) f.lastChild.className = 'fbig'; }
+    if (!back){ f.appendChild(h('div', 'fbig', rev ? c.r : c.k)); }
     else {
       f.appendChild(h('div', 'fbig', rev ? c.k : c.r));
       if (/^[はをへ]$/.test(toHira(c.k))) f.appendChild(h('div', 'fsm', toHira(c.k) === 'は' ? 'Come particella si legge «wa».' : toHira(c.k) === 'へ' ? 'Come particella si legge «e».' : 'Come particella si legge «o».'));
@@ -410,16 +419,18 @@ $('fc-rev').onchange = () => { FC.set.rev = $('fc-rev').checked; fcSave(); };
 $('fc-addm').onclick = () => {
   const f = $('fc-f').value.trim(), b = $('fc-b').value.trim();
   if (!f || !b) return;
-  addCustom({id: 'u:' + f + '|m' + Date.now(), f, b: b.split('\n')});
-  $('fc-f').value = ''; $('fc-b').value = ''; $('fc-addm').textContent = 'Aggiunta ✓'; setTimeout(() => $('fc-addm').textContent = 'Aggiungi carta', 1200); renderDecks();
+  const righe = b.split('\n');
+  const ok = addCustom({id: 'u:' + f + '|m|' + righe.join('/'), f, b: righe});
+  if (ok){ $('fc-f').value = ''; $('fc-b').value = ''; }
+  $('fc-addm').textContent = ok ? 'Aggiunta ✓' : 'Già nelle carte'; setTimeout(() => $('fc-addm').textContent = 'Aggiungi carta', 1200); renderDecks();
 };
-$('fc-bkc').onclick = () => { const s = btoa(unescape(encodeURIComponent(JSON.stringify(FC)))); $('fc-bk').value = s; copy(s, $('fc-bkc')); };
+$('fc-bkc').onclick = () => { const s = encodeBackup(FC); $('fc-bk').value = s; copy(s, $('fc-bkc')); };
 $('fc-bkr').onclick = () => {
   try {
-    const o = JSON.parse(decodeURIComponent(escape(atob($('fc-bk').value.trim()))));
-    FC.cards = o.cards || {}; FC.cust = o.cust || []; FC.set = Object.assign({nw: 10, rev: false}, o.set || {}); FC.st = Object.assign({day: 0, nd: {}, rv: 0}, o.st || {});
+    const o = decodeBackup($('fc-bk').value);                  // se non è valido, i progressi attuali non cambiano
+    Object.assign(FC, o); FC_CORRUPT = false;
     fcSave(); renderDecks(); $('fc-bkr').textContent = 'Ripristinato ✓';
-  } catch(_){ $('fc-bkr').textContent = 'Testo non valido'; }
+  } catch(e){ $('fc-bkr').textContent = e.codice === 'versione' ? 'Backup di una versione più recente' : 'Testo non valido'; }
   setTimeout(() => $('fc-bkr').textContent = 'Ripristina', 1600);
 };
 let RST = 0;

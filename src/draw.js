@@ -8,10 +8,15 @@ const meta = db.meta;
 $('count').textContent = entries.length.toLocaleString('it') + ' kanji';
 
 const pad = $('pad'), ctx = pad.getContext('2d');
-let strokes = [], cur = null, W = 0, H = 0, dpr = 1, timer = null, results = [], selected = null;
+let strokes = [], cur = null, curId = null, W = 0, H = 0, dpr = 1, timer = null, results = [], selected = null;
 
 function resize(){
   const r = pad.getBoundingClientRect(); dpr = window.devicePixelRatio || 1;
+  if (!r.width || !r.height) return;                       // scheda nascosta: non toccare nulla
+  if (W > 0 && Math.abs(r.width - W) > 0.5){               // rotazione o ridimensionamento: i tratti seguono la tela
+    const k = r.width / W, scala = s => s.forEach(p => { p[0] *= k; p[1] *= k; });
+    strokes.forEach(scala); if (cur) scala(cur);
+  }
   W = r.width; H = r.height; pad.width = Math.round(W*dpr); pad.height = Math.round(H*dpr);
   redraw();
 }
@@ -31,11 +36,14 @@ function redraw(){
 }
 function pos(e){ const r = pad.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
 pad.addEventListener('pointerdown', e => {
-  e.preventDefault(); try{ pad.setPointerCapture(e.pointerId); }catch(_){}
+  e.preventDefault();
+  if (cur) return;                                          // un solo dito/penna alla volta: ignora tocchi in più (palmo)
+  try{ pad.setPointerCapture(e.pointerId); }catch(_){}
+  curId = e.pointerId;
   clearTimeout(timer); cur = [pos(e)]; $('hint').style.display = 'none'; redraw();
 });
 pad.addEventListener('pointermove', e => {
-  if (!cur) return; e.preventDefault();
+  if (!cur || e.pointerId !== curId) return; e.preventDefault();
   const evs = (e.getCoalescedEvents && e.getCoalescedEvents()) || [e];
   for (const ev of (evs.length ? evs : [e])){
     const p = pos(ev), l = cur[cur.length-1];
@@ -44,7 +52,8 @@ pad.addEventListener('pointermove', e => {
   redraw();
 });
 function end(e){
-  if (!cur) return;
+  if (!cur || e.pointerId !== curId) return;
+  curId = null;
   if (cur.length === 1) cur.push([cur[0][0]+3, cur[0][1]+3]); // un punto = tratto breve
   strokes.push(cur); cur = null; redraw(); updateButtons();
   timer = setTimeout(recognizeNow, 120);
@@ -62,9 +71,7 @@ function reset(){ results = []; selected = null; $('cands').innerHTML = ''; $('d
 function recognizeNow(){
   if (!strokes.length) return;
   // il lato della tela fa da scala: ignora i tratti piu' corti di ~1% del lato
-  const t0 = performance.now();
   results = recognize(strokes, entries, 14, Math.max(2, W*0.01));
-  const ms = Math.round(performance.now() - t0);
   $('status').textContent = results.length ? strokes.length + (strokes.length === 1 ? ' tratto' : ' tratti') + ' · tocca un risultato per i dettagli' : 'Nessun risultato: prova a ridisegnare.';
   renderCands();
   if (results.length) select(results[0][0]);
@@ -97,7 +104,11 @@ function select(ch){
   $('tags').innerHTML = ''; for (const t of tags){ const s = document.createElement('span'); s.className = 'tag'; s.textContent = t; $('tags').appendChild(s); }
   $('jisho').href = 'https://jisho.org/search/' + encodeURIComponent(ch + ' #kanji');
 }
-$('fcadd').onclick = () => { if (!selected) return; window.dispatchEvent(new CustomEvent('fc-add', {detail: {type: 'kanji', ch: selected}})); $('fcadd').textContent = 'Aggiunta ✓'; setTimeout(() => $('fcadd').textContent = '＋ Flashcard', 1400); };
+$('fcadd').onclick = () => {
+  if (!selected) return;
+  const done = ok => { $('fcadd').textContent = ok ? 'Aggiunta ✓' : 'Già nelle carte'; setTimeout(() => $('fcadd').textContent = '＋ Flashcard', 1400); };
+  window.dispatchEvent(new CustomEvent('fc-add', {detail: {type: 'kanji', ch: selected, done}}));
+};
 $('copy1').onclick = () => selected && copy(selected, $('copy1'), 'Seleziona e copia a mano');
 $('copyt').onclick = () => copy($('txt').value, $('copyt'), 'Seleziona e copia a mano');
 function jt(){ $('jishot').href = 'https://jisho.org/search/' + encodeURIComponent($('txt').value || ''); }

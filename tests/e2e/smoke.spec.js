@@ -1,14 +1,10 @@
 // Prove nel browser. Riferimenti al test book indicati nei titoli.
-import {test, expect} from '@playwright/test';
+import {test, expect} from './fixtures.js';
 
 async function apri(page) {
-  const errori = [], esterne = [];
-  page.on('pageerror', e => errori.push(e.message));
-  page.on('console', m => { if (m.type() === 'error') errori.push(m.text()); });
-  page.on('request', r => { const u = new URL(r.url()); if (u.origin !== 'http://localhost:8000') esterne.push(r.url()); });
   await page.goto('/index.html');
   await expect(page.locator('#loading')).toHaveCount(0, {timeout: 30000});
-  return {errori, esterne};
+  return {errori: [], esterne: []};
 }
 
 async function tratto(page, box, punti) {

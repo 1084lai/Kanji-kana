@@ -6,7 +6,7 @@
   "description": "Studio del giapponese offline: disegna kanji, kana, romaji, lettore e flashcard.",
   "scripts": {
     "start": "python3 -m http.server 8000",
-    "lint": "eslint src tests",
+    "lint": "eslint --max-warnings 0 src tests",
     "test": "node --test \"tests/unit/*.test.js\""
   },
   "devDependencies": {

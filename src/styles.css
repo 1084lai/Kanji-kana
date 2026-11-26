@@ -117,3 +117,13 @@ button.pri{color:#fff}
 .credits{padding-left:18px}.credits li{margin:0 0 10px}
 #tab-crediti h2{font-size:15px;margin:18px 0 6px}
 #foot{text-align:center}
+
+/* classi che sostituiscono gli stili in linea (necessario per la Content-Security-Policy) */
+.loading{padding:1rem;text-align:center}
+.mt0{margin-top:0}.mt10{margin-top:10px}.m08{margin:0 0 8px}.ai-c{align-items:center}
+.inp{border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+.inp-sm{width:80px;font-size:16px;padding:6px}
+.inp-lg{width:100%;font-size:18px;padding:8px 10px}
+.inp-md{width:100%;margin-top:6px;font-size:16px;padding:8px 10px;font-family:inherit}
+.inp-xs{width:100%;font-size:12px;padding:8px}
+.grow{flex:1}

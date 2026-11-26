@@ -31,7 +31,6 @@ function prepare(raw, minLen) {
     out.push({len, pts: s});
   }
   if (!out.length) return [];
-  const maxLen = Math.max(...out.map(o=>o.len));
   const kept = out.filter(o => o.len >= (minLen||0) || out.length === 1);
   return normalize(kept.map(o => resampleStroke(o.pts, NP)));
 }

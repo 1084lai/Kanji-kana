@@ -36,3 +36,7 @@
 ## Aggiornamento del 26 novembre 2026
 
 Dopo la baseline sono stati corretti DEF-01, DEF-02, DEF-10 e DEF-14, il codice è stato separato dai dati (ADR-0001) e sono stati aggiunti test automatici: 27 test di unità (`npm test`) e 12 test nel browser (`npx playwright test`), con gli esiti riportati nel [test book](test-book.md). Il rapporto sopra resta la fotografia dell'app com'era al commit `a6cdefb`.
+
+## Aggiornamento del 26 novembre 2026: chiusura dei difetti
+
+Corretti DEF-03, 04, 05, 06, 07, 08, 09, 11, 12, 13 e 15, ciascuno con un test automatico (unitario in `tests/unit`, nel browser in `tests/e2e/difetti.spec.js`). Il registro è in `docs/test-book.md`. Quando si aggiungerà l'accesso con Supabase, la direttiva `connect-src` della CSP in `index.html` dovrà includere l'indirizzo del progetto.

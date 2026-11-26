@@ -1,7 +1,7 @@
 // Test dell'analisi del testo e della conversione in scrittura mista. Riferimenti: TC-LEG-01/03/04, TC-ROM-04.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import '../helpers/load-data.js';
+import {DATA} from '../helpers/load-data.js';
 import {tokenizeLine, kanjiSegments} from '../../src/reader.js';
 import {r2k} from '../../src/romaji.js';
 
@@ -36,9 +36,28 @@ test('TC-ROM-04: il saluto resta in hiragana o in kanji corretti', () => {
   assert.match(misto('konnichiwa'), /^(こんにちは|今日は)$/);
 });
 
-// Difetto noto DEF-03: «kanji» dà 幹事 invece di 漢字.
-test('TC-ROM-04: «kanji» -> 漢字', {todo: 'DEF-03: classifica del dizionario'}, () => {
+test('TC-ROM-04: «kanji» -> 漢字 (DEF-03)', () => {
   assert.equal(misto('kanji'), '漢字');
+});
+
+test('TC-ROM-04: tra omofoni vince la parola più comune', () => {
+  assert.equal(misto('kaisha'), '会社');
+  assert.equal(misto('sensei'), '先生');
+  assert.equal(misto('gakusei'), '学生');
+});
+
+test('TC-ROM-04: precisione su 2.892 parole comuni (livello fino a N3) non scende sotto il 78%', () => {
+  let n = 0, ok = 0;
+  for (const [w, lst] of Object.entries(DATA.jw)) {
+    if (!/[一-鿿]/.test(w)) continue;
+    for (const [rd, rank] of lst) {
+      if (rank > 8 || !/^[ぁ-ゖー]+$/.test(rd) || rd.length < 2) continue;
+      n++;
+      if (kanjiSegments(rd).map(x => x.cands[x.sel]).join('') === w) ok++;
+    }
+  }
+  assert.ok(n > 2800, 'campione: ' + n);
+  assert.ok(ok / n >= 0.78, (100 * ok / n).toFixed(1) + '%');
 });
 
 test('TC-LEG-07: la frase d\'esempio non contiene parti sconosciute', () => {

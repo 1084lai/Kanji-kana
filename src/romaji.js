@@ -37,13 +37,15 @@ const MACS = {a:'ā',i:'ī',u:'ū',e:'ē',o:'ō'};
 // Saluti in cui は si legge «wa»: si scrivono con は anche se in romaji si digita «wa».
 const GREET_W = /(こんにち|こんばん)わ(?![ぁ-ゖ])/g;
 const GREET_H = /(?<![ぁ-ゖ])(こんにち|こんばん)は/g;
+// Le vocali lunghe (ā ī ū ē ō) diventano la vocale più un segnaposto \uE001-\uE005 (area d'uso privato di Unicode):
+// in hiragana il segnaposto è la vocale che allunga, in katakana è «ー».
 function r2k(src){
   const s = src.normalize('NFC').toLowerCase()
-    .replace(/[āâ]/g,'a').replace(/[īî]/g,'i').replace(/[ūû]/g,'u').replace(/[ēê]/g,'e').replace(/[ōô]/g,'o');
+    .replace(/[āâ]/g,'a\uE001').replace(/[īî]/g,'i\uE002').replace(/[ūû]/g,'u\uE003').replace(/[ēê]/g,'e\uE004').replace(/[ōô]/g,'o\uE005');
   let out = '';
   for (let i = 0; i < s.length;){
     const c = s[i];
-    if (c >= '' && c <= ''){ out += c; i++; continue; }
+    if (c >= '\uE001' && c <= '\uE005'){ out += c; i++; continue; }
     const n = s[i+1];
     if (c === 'n' && n === 'n' && !/[aiueoy'’]/.test(s[i+2] || '')){ out += 'ん'; i += 2; continue; }
     if (n && c === n && /[bcdfghjklmpqrstvwxyz]/.test(c)){ out += 'っ'; i++; continue; }
@@ -55,8 +57,8 @@ function r2k(src){
     out += PUNCT[c] || c; i++;
   }
   out = out.replace(GREET_W, (m, a) => a + 'は');
-  return {hira: out.replace(/[-]/g, m => ['あ','い','う','え','う'][m.charCodeAt(0)-0xE001]),
-          kata: toKata(out.replace(/[-]/g, 'ー'))};
+  return {hira: out.replace(/[\uE001-\uE005]/g, m => ['あ','い','う','え','う'][m.charCodeAt(0)-0xE001]),
+          kata: toKata(out.replace(/[\uE001-\uE005]/g, 'ー'))};
 }
 function nextSyl(h, j){
   const two = h.substr(j, 2); if (two.length === 2 && R[two]) return {r: R[two], len: 2};
@@ -77,4 +79,16 @@ function k2r(src){
   }
   return out;
 }
-export {ALIAS, BASE, DAK, EXTRA, HAN, MACS, PUNCT, PUNCT_R, YOON, addT, k2r, nextSyl, r2k, rows, sp, toHira, toKata, R, T};
+
+// Carte dei kana per il ripasso. Il retro/fronte inverso è il romaji: «ji (di)», «zu (du)» e «o (wo)» distinguono ぢ, づ e を da じ, ず e お.
+const KROM = {'ぢ':'ji (di)','づ':'zu (du)','を':'o (wo)'};
+function kanaCards(katakana){
+  const groups = [BASE, DAK, HAN, YOON].concat(katakana ? [EXTRA] : []);
+  const out = [];
+  for (const g of groups) for (const row of g) for (const c of row) if (c){
+    const k = katakana ? toKata(c[0]) : c[0];
+    out.push({id: (katakana ? 'k:' : 'h:') + k, k, r: KROM[c[0]] || c[1], kind: 'kana'});
+  }
+  return out;
+}
+export {KROM, kanaCards, ALIAS, BASE, DAK, EXTRA, HAN, MACS, PUNCT, PUNCT_R, YOON, addT, k2r, nextSyl, r2k, rows, sp, toHira, toKata, R, T};

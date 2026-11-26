@@ -1,5 +1,5 @@
 // Prove per il rilascio: Crediti, uso senza rete, navigazione, frase d'esempio.
-import {test, expect} from '@playwright/test';
+import {test, expect} from './fixtures.js';
 
 async function apri(page, url = '/index.html') {
   await page.goto(url);

@@ -129,9 +129,9 @@ Questi requisiti nascono dall'analisi tecnica e dalle decisioni ADR-0001…0004.
 | TC-CAR-02 | REQ-CAR-02 | P1 | S, E | Mostra risposta; tasto 3; Spazio/Invio | Rivelazione, «Bene», carta successiva; intervalli sui quattro pulsanti | S: Superato; resto da eseguire |
 | TC-CAR-03 | REQ-CAR-03 | P1 | S, U | Carta nuova: «Ancora»; poi sequenze «Bene» e «Facile»; lapsus | «Ancora» → 1 min; passi 1 e 10 min; primo intervallo 1 giorno (4 con «Facile»); EF iniziale 2,5, minimo 1,3; lapsus dimezza l'intervallo | Superato (S, U) |
 | TC-CAR-04 | REQ-CAR-04 | P2 | S, U, E | Limite 10; studia 10 nuove; cambia giorno | L'11ª non è proposta; il giorno dopo il conteggio si azzera; valori ammessi 0-200 | S: Superato; resto da eseguire |
-| TC-CAR-05 | REQ-CAR-05 | P2 | S, U, E | Rispondi e premi annulla | Stato della carta ripristinato com'era | S: Superato (DEF-07); resto da eseguire |
-| TC-CAR-06 | REQ-CAR-06 | P3 | S, E | Opzione inverti su un mazzo di kana | Fronte con romaji | S: Superato (DEF-08); resto da eseguire |
-| TC-CAR-07 | REQ-CAR-07 | P2 | S, E | Carta manuale; da Disegna e Leggi; duplicato | Carte create; al duplicato compare «Già nelle carte» | S: Fallito (DEF-06); resto da eseguire |
+| TC-CAR-05 | REQ-CAR-05 | P2 | S, U, E | Rispondi e premi annulla | Stato della carta ripristinato com'era | Superato (S, U, E); DEF-07 chiuso |
+| TC-CAR-06 | REQ-CAR-06 | P3 | S, E | Opzione inverti su un mazzo di kana | Fronte con romaji | Superato (S, U); DEF-08 chiuso |
+| TC-CAR-07 | REQ-CAR-07 | P2 | S, E | Carta manuale; da Disegna e Leggi; duplicato | Carte create; al duplicato compare «Già nelle carte» | Superato (S, E); DEF-05 e DEF-06 chiusi |
 | TC-CAR-08 | REQ-CAR-08 | P1 | S, E | Progressi dopo ricaricamento; storage non disponibile | Progressi in `fc_v1` ricaricati; con storage bloccato compare l'avviso | Superato (S, E) |
 | TC-CAR-09 | REQ-CAR-09 | P1 | S, E | Esporta e ripristina un backup valido; «Azzera» una volta e due volte entro 3 secondi | Progressi tornati allo stato salvato; con una sola pressione non si azzera; con la seconda entro 3 secondi sì | S: Superato; resto da eseguire |
 
@@ -162,10 +162,10 @@ Questi requisiti nascono dall'analisi tecnica e dalle decisioni ADR-0001…0004.
 | TC-ACC-03 | REQ-ACC-03 | P2 | E, M | Ricarica dopo il login; annulla il login a metà; blocca la rete durante il login | Sessione mantenuta; in caso di annullamento o errore, messaggio chiaro e app usabile | Da eseguire |
 | TC-SYN-01 | REQ-SYN-01 | P1 | E | Utente A con 5 carte locali e 8 in cloud, con 3 in comune | Dopo il primo accesso le carte sono l'unione; per le 3 in comune vince `updated_at` più recente; nessuna perdita | Da eseguire |
 | TC-SYN-02 | REQ-SYN-02 | P1 | E | Offline, studia 5 carte; torna online | Le modifiche arrivano nel cloud e si ritrovano da un altro dispositivo | Da eseguire |
-| TC-SYN-03 | REQ-SYN-03 | P1 | U, E | D5: backup valido, alterato, di versione futura | Il valido si ripristina; gli altri sono rifiutati con messaggio e i progressi non cambiano | S: Fallito (DEF-04); resto da eseguire |
+| TC-SYN-03 | REQ-SYN-03 | P1 | U, E | D5: backup valido, alterato, di versione futura | Il valido si ripristina; gli altri sono rifiutati con messaggio e i progressi non cambiano | Superato (U, E); DEF-04 chiuso |
 | TC-SEC-01 | REQ-SEC-01 | P1 | E | D6: A scrive la sua riga; B tenta di leggere, modificare e cancellare la riga di A; utente anonimo tenta tutte le operazioni | B e anonimo: nessun dato letto né modificato (0 righe o errore) | Da eseguire |
 | TC-SEC-02 | REQ-SEC-02 | P1 | Q | gitleaks sul repository e sui file pubblicati; ricerca di `service_role` | Nessun segreto; nessuna chiave `service_role` | Da eseguire |
-| TC-SEC-03 | REQ-SEC-03 | P2 | S, Q | Semgrep sull'uso di `innerHTML`; verifica dell'intestazione CSP | Nessun inserimento di dati esterni con `innerHTML`; CSP presente e senza `unsafe-inline` per gli script (dopo la separazione) | S: Fallito (DEF-11); resto da eseguire |
+| TC-SEC-03 | REQ-SEC-03 | P2 | S, Q | Semgrep sull'uso di `innerHTML`; verifica dell'intestazione CSP | Nessun inserimento di dati esterni con `innerHTML`; CSP presente e senza `unsafe-inline` per gli script (dopo la separazione) | CSP presente e verificata (E); Semgrep in CI da eseguire; DEF-11 chiuso |
 | TC-PRI-01 | REQ-PRI-01 | P1 | E | Primo avvio senza consenso; controlla le richieste di rete | Nessuno script pubblicitario o di analisi con cookie; informativa e cookie policy raggiungibili; con consenso negato nulla parte | Da eseguire |
 | TC-PRI-02 | REQ-PRI-02 | P1 | E, M | Utente di prova: «Cancella account e dati» | Riga in `progress` e utente rimossi; i dati locali restano finché l'utente non li azzera | Da eseguire |
 | TC-CRE-01 | REQ-CRE-01 | P1 | S, E | Apri «Crediti» | KanjiVG, KANJIDIC, JMdict con autori, licenze (CC BY-SA) e link; licenza del codice (MIT) | Superato (S, E) |
@@ -183,19 +183,19 @@ Prima di modificare il codice si eseguono **tutti i TC con livello S** sull'app 
 |---|---|---|---|---|
 | DEF-01 | TC-ROM-01, TC-KAN-03 | «konnichiwa» dà こんにちわ e こんにちは dà «konnichiha»: l'app traslittera senza riconoscere la lettura particolare di は in questa parola. I criteri dell'analisi funzionale chiedono こんにちは e «konnichiwa». | P2 | Chiuso il 26 novembre 2026: eccezioni per こんにちは e こんばんは, con test |
 | DEF-02 | TC-ROM-03 | «nn» produce due ん; il requisito dice che «nn» dà ん. Esempio: «kannji» → かんんじ (atteso かんじ). | P2 | Chiuso il 26 novembre 2026: «nn» = ん se non segue vocale o y, con test |
-| DEF-03 | TC-ROM-04 | «kanji» in scrittura mista dà 幹事 invece di 漢字: la classifica del dizionario non favorisce la parola più comune. | P3 | Aperto |
-| DEF-04 | TC-SYN-03 | Il ripristino del backup e il caricamento da `localStorage` non validano la struttura dei dati (OSS-02); un salvataggio corrotto mostra l'avviso «salvataggio non possibile», che è il messaggio sbagliato, e il salvataggio successivo lo sovrascrive. | P2 | Aperto (si risolve con la validazione della versione 1.0) |
-| DEF-05 | TC-DIS-09 | In Disegna «+ Flashcard» mostra «Aggiunta ✓» anche se la carta esiste già (il messaggio «Già nelle carte» c'è solo in Leggi). | P3 | Aperto |
-| DEF-06 | TC-CAR-07 | Le carte manuali hanno un id con `Date.now()`: i duplicati sono ammessi, contro il requisito. | P3 | Aperto |
-| DEF-07 | TC-CAR-05 | L'annullamento resta attivo uscendo dal mazzo: in un altro mazzo mostra «Hai finito per ora» anche se ci sono carte. | P3 | Aperto |
-| DEF-08 | TC-CAR-06 | Carte inverse ambigue: じ/ぢ (ji) e ず/づ (zu) hanno lo stesso fronte. | P3 | Aperto |
-| DEF-09 | TC-DIS-01, TC-TRA-04 | La tela non filtra per `pointerId` (tocchi multipli, palmo) e i tratti non sono riscalati se la finestra cambia dimensione o si ruota il telefono. Da confermare con Playwright. | P3 | Da verificare |
+| DEF-03 | TC-ROM-04 | «kanji» in scrittura mista dà 幹事 invece di 漢字: la classifica del dizionario non favorisce la parola più comune. | P3 | Chiuso il 26 novembre 2026: corretto, con test |
+| DEF-04 | TC-SYN-03 | Il ripristino del backup e il caricamento da `localStorage` non validano la struttura dei dati (OSS-02); un salvataggio corrotto mostra l'avviso «salvataggio non possibile», che è il messaggio sbagliato, e il salvataggio successivo lo sovrascrive. | P2 | Chiuso il 26 novembre 2026: corretto, con test |
+| DEF-05 | TC-DIS-09 | In Disegna «+ Flashcard» mostra «Aggiunta ✓» anche se la carta esiste già (il messaggio «Già nelle carte» c'è solo in Leggi). | P3 | Chiuso il 26 novembre 2026: corretto, con test |
+| DEF-06 | TC-CAR-07 | Le carte manuali hanno un id con `Date.now()`: i duplicati sono ammessi, contro il requisito. | P3 | Chiuso il 26 novembre 2026: corretto, con test |
+| DEF-07 | TC-CAR-05 | L'annullamento resta attivo uscendo dal mazzo: in un altro mazzo mostra «Hai finito per ora» anche se ci sono carte. | P3 | Chiuso il 26 novembre 2026: corretto, con test |
+| DEF-08 | TC-CAR-06 | Carte inverse ambigue: じ/ぢ (ji) e ず/づ (zu) hanno lo stesso fronte. | P3 | Chiuso il 26 novembre 2026: corretto, con test |
+| DEF-09 | TC-DIS-01, TC-TRA-04 | La tela non filtra per `pointerId` (tocchi multipli, palmo) e i tratti non sono riscalati se la finestra cambia dimensione o si ruota il telefono. Da confermare con Playwright. | P3 | Chiuso il 26 novembre 2026: corretto, con test |
 | DEF-10 | TC-TRA-01 | Il tab si legge dall'indirizzo solo al caricamento; manca l'ascolto di `hashchange` (il tasto Indietro non cambia scheda). | P3 | Chiuso il 26 novembre 2026: ascolto di `hashchange`, con test |
-| DEF-11 | TC-SEC-03 | Nessuna Content-Security-Policy. Atteso per la versione attuale; da risolvere dopo la separazione dei file. | P2 | Aperto |
-| DEF-12 | TC-LEG-05 | `saveKnown` ignora in silenzio gli errori di salvataggio (a differenza dei progressi delle carte). | P3 | Aperto |
-| DEF-13 | TC-ROM-01 | I segnaposto dei macron sono caratteri invisibili dell'area privata (U+E001-E005); è voluto (OSS-03), ma fragile per la manutenzione. | P3 | Aperto: sostituire con costanti con nome |
+| DEF-11 | TC-SEC-03 | Nessuna Content-Security-Policy. Atteso per la versione attuale; da risolvere dopo la separazione dei file. | P2 | Chiuso il 26 novembre 2026: corretto, con test |
+| DEF-12 | TC-LEG-05 | `saveKnown` ignora in silenzio gli errori di salvataggio (a differenza dei progressi delle carte). | P3 | Chiuso il 26 novembre 2026: corretto, con test |
+| DEF-13 | TC-ROM-01 | I segnaposto dei macron sono caratteri invisibili dell'area privata (U+E001-E005); è voluto (OSS-03), ma fragile per la manutenzione. | P3 | Chiuso il 26 novembre 2026: corretto, con test |
 | DEF-14 | TC-LEG-07 | La frase d'esempio di «Esempio» proviene con ogni probabilità da un'opera protetta (OSS-07, BKL-04). | P1 per il rilascio | Chiuso il 26 novembre 2026: frase originale, con test |
-| DEF-15 | — | Codice morto: `maxLen` inutilizzato in `prepare`, condizione `!true` in `renderDecks`. | P3 | Aperto |
+| DEF-15 | — | Codice morto: `maxLen` inutilizzato in `prepare`, condizione `!true` in `renderDecks`. | P3 | Chiuso il 26 novembre 2026: corretto, con test |
 
 ## 6. Tracciabilità
 

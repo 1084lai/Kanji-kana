@@ -2,7 +2,7 @@
 import {DATA} from './data.js';
 import {R, toHira, toKata} from './romaji.js';
 // ---- conversione hiragana -> kanji (dizionario JMdict comune + coniugazioni)
-let JD = null, KW = null, GEN = false;
+let JD = null, GEN = false;
 const CUR = {};
 (function(){
   const add = (cost, s) => s.split(' ').forEach(w => { if (!(w in CUR) || CUR[w] > cost) CUR[w] = cost; });
@@ -69,6 +69,14 @@ function generate(){
   }
   for (const [r, w] of [['くる','来る'],['きます','来ます'],['きました','来ました'],['きません','来ません'],['きて','来て'],['きた','来た'],['こない','来ない'],['こなかった','来なかった'],['きたい','来たい']]) addForm(r, w, -12);
 }
+// Ordine dei candidati per la stessa lettura: prima le parole forzate (PRIO), poi quelle del vocabolario
+// per livello (JMdict), infine le altre per priorità. Così «kanji» dà 漢字 e non 幹事 (DEF-03).
+function ordine(lettura, x){
+  if (x[1] === 0) return -1;
+  const voci = JWD && JWD[x[0]];
+  const hit = voci && voci.find(y => y[0] === lettura);
+  return hit ? hit[1] : 100 + x[1];
+}
 function kEntry(sub){
   const cands = [], seen = new Set(); let cost = Infinity;
   const push = t => { if (!seen.has(t)){ seen.add(t); cands.push(t); } };
@@ -79,12 +87,12 @@ function kEntry(sub){
   if (kw && 2.4 < Math.min(dcost, cc === undefined ? 99 : cc)){ push(kw); cost = 2.4; }
   else if (cc !== undefined && cc <= dcost){ push(sub); cost = cc; }
   else cost = dcost;
-  if (dl) for (const x of dl.slice().sort((a,b) => a[1]-b[1])) push(x[0]);
+  if (dl) for (const x of dl.slice().sort((a,b) => ordine(sub, a) - ordine(sub, b))) push(x[0]);
   push(sub); if (/^[ぁ-ゖー]+$/.test(sub)) push(toKata(sub));
   return cost === Infinity ? null : {cost, cands};
 }
 function kanjiSegments(h){
-  if (!JD){ JD = DATA.jdict; } generate();
+  if (!JD){ JD = DATA.jdict; } loadJW(); generate();
   const n = h.length, best = new Array(n+1).fill(Infinity), bk = new Array(n+1).fill(null); best[0] = 0;
   const cache = new Map();
   for (let i = 0; i < n; i++){

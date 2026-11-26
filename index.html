@@ -2,13 +2,14 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kanji e kana</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="src/styles.css">
 </head>
 <body>
-<div id="loading" style="padding:1rem;text-align:center">Caricamento…</div>
+<div id="loading" class="loading">Caricamento…</div>
 <main>
 <nav class="tabs jp"><button id="tb-disegna" class="on">✏️ Disegna</button><button id="tb-kana">あ Kana</button><button id="tb-romaji">⇄ Romaji</button><button id="tb-leggi">📖 Leggi</button><button id="tb-carte">🃏 Carte</button><button id="tb-crediti">ℹ️ Crediti</button></nav>
 <div id="tab-draw-wrap"><div id="tab-disegna">
@@ -92,7 +93,8 @@
   <textarea id="lin" rows="4" class="jp" placeholder="Incolla qui un testo giapponese (anche copiato da una foto con Testo Attivo / Google Lens)…" autocomplete="off" spellcheck="false"></textarea>
   <div class="bar"><button id="l-ex">Esempio</button><button id="l-clr">Pulisci</button><span class="sp"></span>
     <label class="chk"><input type="checkbox" id="l-rj"> romaji</label></div>
-  <div class="seg" style="margin-top:0"><button id="f-all" class="on">Furigana: tutti</button><button id="f-new">Solo nuove</button><button id="f-none">Nessuno</button></div>
+  <div class="seg mt0"><button id="f-all" class="on">Furigana: tutti</button><button id="f-new">Solo nuove</button><button id="f-none">Nessuno</button></div>
+  <p class="note" id="l-warn" hidden>⚠️ In questo browser non posso salvare le parole che segni come note.</p>
   <div id="lout" class="jp ltext" hidden></div>
   <div id="lpanel" class="ocard" hidden></div>
   <details class="rules" id="lgloss" open><summary>Glossario del testo <span id="lgcount"></span></summary>
@@ -104,19 +106,20 @@
 
 <div id="tab-carte" hidden>
   <div id="fc-home">
-    <div id="fc-today" class="note" style="margin:0 0 8px"></div>
+    <div id="fc-today" class="note m08"></div>
     <div class="legend"><span class="cn">nuove</span><span class="cl">in corso</span><span class="cr">da ripassare</span></div>
     <div id="fc-decks"></div>
+    <p class="note" id="fc-corrupt" hidden>⚠️ I progressi salvati in questo browser non erano leggibili: ne ho conservato una copia e sono ripartito da zero. Se hai un backup, usa «Ripristina» qui sotto.</p>
     <p class="note" id="fc-warn" hidden>⚠️ In questo browser non posso salvare i progressi: usa «Backup» qui sotto per conservarli.</p>
     <details class="rules"><summary>Impostazioni, carte a mano e backup</summary>
-      <div class="row2" style="margin-top:10px;align-items:center"><label for="fc-nw" style="flex:1">Nuove carte al giorno (per mazzo)</label><input id="fc-nw" type="number" min="0" max="200" style="width:80px;font-size:16px;padding:6px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)"></div>
-      <label class="chk" style="margin-top:10px"><input type="checkbox" id="fc-rev"> Kana: mostra il romaji davanti e indovina il kana</label>
+      <div class="row2 mt10 ai-c"><label for="fc-nw" class="grow">Nuove carte al giorno (per mazzo)</label><input id="fc-nw" type="number" min="0" max="200" class="inp inp-sm"></div>
+      <label class="chk mt10"><input type="checkbox" id="fc-rev"> Kana: mostra il romaji davanti e indovina il kana</label>
       <div class="plb2">Aggiungi una carta a mano</div>
-      <input id="fc-f" class="jp" placeholder="Fronte (es. 約束)" style="width:100%;font-size:18px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)">
-      <textarea id="fc-b" rows="2" placeholder="Retro (una riga per volta)" style="width:100%;margin-top:6px;font-size:16px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-family:inherit"></textarea>
+      <input id="fc-f" class="jp inp inp-lg" placeholder="Fronte (es. 約束)">
+      <textarea id="fc-b" rows="2" placeholder="Retro (una riga per volta)" class="inp inp-md"></textarea>
       <div class="acts"><button id="fc-addm">Aggiungi carta</button></div>
       <div class="plb2">Backup dei progressi</div>
-      <textarea id="fc-bk" rows="2" placeholder="Il testo del backup compare qui; per ripristinare incollalo qui" style="width:100%;font-size:12px;padding:8px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)"></textarea>
+      <textarea id="fc-bk" rows="2" placeholder="Il testo del backup compare qui; per ripristinare incollalo qui" class="inp inp-xs"></textarea>
       <div class="acts"><button id="fc-bkc">Copia backup</button><button id="fc-bkr">Ripristina</button><button id="fc-rst">Azzera tutti i progressi</button></div>
     </details>
     <p class="note">Ripetizione dilazionata come Anki: «Ancora» riporta la carta a breve, «Bene» allunga l'intervallo, «Facile» lo allunga di più. Scorciatoie: spazio = mostra risposta, 1-4 = Ancora/Difficile/Bene/Facile. Dalle schede Disegna e Leggi puoi aggiungere kanji e parole a «Le mie carte».</p>
