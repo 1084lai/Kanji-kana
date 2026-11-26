@@ -39,7 +39,7 @@ Adottare l'**opzione C**, per fasi:
 ### Scelta delle lingue dopo il lancio
 
 - **Segnali:** download per paese (Google Play Console per l'app, statistiche web rispettose della privacy per la web app) e **lingua del browser/dispositivo**, che è più indicativa del paese (un italiano all'estero resta italiano).
-- **Soglia minima:** con pochi utenti i numeri sono rumore. Decidere solo dopo un campione minimo (da fissare, per esempio almeno 100 utenti attivi) e comunque non prima della revisione dei 3 mesi.
+- **Soglia minima:** con pochi utenti i numeri sono rumore. Decidere solo dopo un campione minimo (fissato a 50 utenti attivi) e comunque non prima della revisione dei 3 mesi.
 - **Candidate:** inglese (già presente), spagnolo, francese, tedesco, olandese (le lingue con glosse disponibili in JMdict), più l'italiano come variante nativa.
 - **Italiano nativo:** prima tranche sui 2.136 kanji jōyō e circa 3.000 parole comuni, con bozza automatica e revisione a campione (stima: 15-20 ore). Le glosse tradotte sono un'opera derivata e vanno rilasciate in CC BY-SA 4.0 con i crediti dell'EDRDG (ADR-0001). Per ogni lingua vanno verificate la licenza e la copertura dei dati.
 
