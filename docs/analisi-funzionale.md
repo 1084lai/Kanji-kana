@@ -138,12 +138,11 @@ Non sono errori accertati: sono punti da verificare nel test book.
 
 | ID | Voce | Origine | Note |
 |---|---|---|---|
-| BKL-01 | Scheda «Crediti» con le attribuzioni di KanjiVG, KANJIDIC e JMdict, i link alle licenze e le modifiche fatte ai dati. | OSS-06 | L'EDRDG chiede che nelle app il riconoscimento stia in una schermata dedicata («Informazioni» o «Fonti»); una menzione nella pagina iniziale non basta. |
-| BKL-02 | Separare i dati (kanji, dizionari) dal codice in file distinti, con licenze distinte. | OSS-06, OSS-09 | Vedi [ADR-0001](adr/0001-separare-dati-e-codice.md). |
-| BKL-03 | Scegliere la licenza del codice. | OSS-06 | Vedi [ADR-0002](adr/0002-licenza-del-codice.md). |
-| BKL-04 | Sostituire la frase d'esempio della scheda Leggi con un testo originale o di pubblico dominio. | OSS-07 | Da fare prima della pubblicazione. |
-| BKL-05 | Definire una procedura per aggiornare periodicamente i dati JMdict e KANJIDIC. | OSS-06 | L'EDRDG la richiede per il software che usa i suoi file. |
-
+| BKL-01 | Scheda «Crediti» con le attribuzioni di KanjiVG, KANJIDIC e JMdict, i link alle licenze e le modifiche fatte ai dati. | OSS-06 | L'EDRDG chiede che nelle app il riconoscimento stia in una schermata dedicata («Informazioni» o «Fonti»); una menzione nella pagina iniziale non basta. **Stato:** Fatto il 26 novembre 2026. |
+| BKL-02 | Separare i dati (kanji, dizionari) dal codice in file distinti, con licenze distinte. | OSS-06, OSS-09 | Vedi [ADR-0001](adr/0001-separare-dati-e-codice.md). **Stato:** Fatto il 26 novembre 2026 (ADR-0001, sezione «Attuazione»). |
+| BKL-03 | Scegliere la licenza del codice. | OSS-06 | Vedi [ADR-0002](adr/0002-licenza-del-codice.md). **Stato:** Fatto il 26 novembre 2026: file `LICENSE` (MIT). |
+| BKL-04 | Sostituire la frase d'esempio della scheda Leggi con un testo originale o di pubblico dominio. | OSS-07 | Da fare prima della pubblicazione. **Stato:** Fatto il 26 novembre 2026. |
+| BKL-05 | Definire una procedura per aggiornare periodicamente i dati JMdict e KANJIDIC. | OSS-06 | L'EDRDG la richiede per il software che usa i suoi file. **Stato:** Parziale: procedura descritta in `data/README.md`, script di generazione ancora da scrivere. |
 ## 7. Prossimi passi
 
 1. ~~Revisione di questa analisi da parte dell'autore~~ (completata il 26 novembre 2026).

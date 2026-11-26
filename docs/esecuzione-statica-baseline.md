@@ -32,3 +32,7 @@
 2. Completare la parte statica dei TC non eseguiti (LEG-02, -05, -06, ROM-06).
 3. Con la separazione di dati e codice (ADR-0001), trasformare i controlli in Node in test automatici (livello U) e scrivere i test Playwright (livello E).
 4. Correggere i difetti in ordine di priorità, ripetendo ogni volta i TC collegati.
+
+## Aggiornamento del 26 novembre 2026
+
+Dopo la baseline sono stati corretti DEF-01, DEF-02, DEF-10 e DEF-14, il codice è stato separato dai dati (ADR-0001) e sono stati aggiunti test automatici: 27 test di unità (`npm test`) e 12 test nel browser (`npx playwright test`), con gli esiti riportati nel [test book](test-book.md). Il rapporto sopra resta la fotografia dell'app com'era al commit `a6cdefb`.

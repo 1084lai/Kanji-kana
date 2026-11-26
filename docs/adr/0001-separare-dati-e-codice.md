@@ -33,3 +33,10 @@ I dati vengono caricati all'avvio o alla prima necessità e messi in cache dal b
 - Serve una scheda «Crediti» (BKL-01) e un testo di licenza accanto ai dati.
 
 Nota: questo documento descrive scelte tecniche e non è consulenza legale.
+
+## Attuazione (26 novembre 2026)
+
+- I dati sono in `data/` (quattro file, uno per fonte e licenza), con [data/README.md](../../data/README.md) che ne descrive formato e aggiornamento.
+- Il codice è in `src/` come moduli: la logica senza interfaccia (`romaji.js`, `reader.js`, `recognizer.js`, `srs.js`) è separata dall'interfaccia (`draw.js`, `app.js`) ed è coperta da test automatici.
+- Il funzionamento offline è affidato a un service worker (`sw.js`).
+- Restano da fare: aggiornamento automatico dei dati (BKL-05) e migrazione a TypeScript con Vite ([ADR-0004](0004-stack-e-hosting-primo-rilascio.md)).
