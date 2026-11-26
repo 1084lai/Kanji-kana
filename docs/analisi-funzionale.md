@@ -5,7 +5,7 @@
 | **Versione documentata** | `index.html` presente nel repository (pagina unica, 6,4 MB) |
 | **Data** | 26 novembre 2026 |
 | **Metodo** | Ricostruzione dal codice sorgente (lettura statica). Nessuna esecuzione dell'app. |
-| **Stato** | Bozza per revisione dell'autore. I requisiti descrivono ciò che il codice fa oggi, non ciò che dovrebbe fare. |
+| **Stato** | Approvata dall'autore il 26 novembre 2026. I requisiti descrivono ciò che il codice fa oggi, non ciò che dovrebbe fare. |
 
 ## 1. Scopo e contesto
 
@@ -146,8 +146,8 @@ Non sono errori accertati: sono punti da verificare nel test book.
 
 ## 7. Prossimi passi
 
-1. **Revisione** di questa analisi da parte dell'autore: conferma o correzione dei requisiti.
-2. **Decisioni** su dati e licenza: ADR-0001 e ADR-0002 (oggi in stato «proposta»).
+1. ~~Revisione di questa analisi da parte dell'autore~~ (completata il 26 novembre 2026).
+2. **Decisioni** su dati e licenza: ADR-0001 e ADR-0002 (accettate).
 3. **Analisi tecnica** (architettura, modello dati, contratto API, strategia di sincronizzazione, sicurezza).
 4. **Test book** con casi TC-… collegati a ciascun REQ, matrice di tracciabilità, esecuzione statica sul codice e poi Playwright.
 5. **Decisioni** da registrare come ADR: stack di destinazione, hosting, autenticazione.

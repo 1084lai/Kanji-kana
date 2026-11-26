@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Stato** | Proposta (da confermare) |
+| **Stato** | Accettata (approvata dall'autore il 26 novembre 2026) |
 | **Data** | 26 novembre 2026 |
 | **Collegato a** | OSS-06, OSS-09, BKL-01, BKL-02 |
 
@@ -10,7 +10,7 @@
 
 L'app è un unico `index.html` di 6,4 MB che contiene sia il codice (circa 70 KB) sia tre blocchi di dati: tratti dei kanji (KanjiVG, KANJIDIC), e due indici del dizionario (JMdict). Questi dati hanno licenze proprie con obbligo di attribuzione e di «share-alike»: KanjiVG è CC BY-SA 3.0, JMdict e KANJIDIC sono CC BY-SA 4.0 secondo l'EDRDG. Con dati e codice nello stesso file non è chiaro dove finisca la parte soggetta a quelle licenze, e il file è difficile da testare e da rivedere.
 
-## Decisione proposta
+## Decisione
 
 Separare il progetto in tre parti:
 

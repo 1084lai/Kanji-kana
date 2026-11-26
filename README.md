@@ -35,7 +35,7 @@ python3 -m http.server 8000
 Versione iniziale, in fase di analisi e messa in qualità. I documenti sono in [`docs/`](docs/):
 
 - [Analisi funzionale "as-is"](docs/analisi-funzionale.md): requisiti ricostruiti dal codice, criteri di accettazione e punti aperti.
-- Decisioni di progetto (ADR): [separare dati e codice](docs/adr/0001-separare-dati-e-codice.md) e [licenza del codice](docs/adr/0002-licenza-del-codice.md), entrambe ancora in stato «proposta».
+- Decisioni di progetto (ADR): [separare dati e codice](docs/adr/0001-separare-dati-e-codice.md) e [licenza del codice](docs/adr/0002-licenza-del-codice.md), entrambe accettate.
 
 Prossime tappe: analisi tecnica, test book con casi tracciati ai requisiti, test automatici con Playwright, pubblicazione online e, più avanti, login e sincronizzazione dei progressi.
 
@@ -46,4 +46,4 @@ L'app incorpora dati di terze parti, che richiedono attribuzione:
 - **KanjiVG** (forma e tratti dei kanji): © Ulrich Apel, licenza [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
 - **KANJIDIC** e **JMdict** (significati, letture e vocabolario): © Electronic Dictionary Research and Development Group (EDRDG), usati secondo la [licenza dell'EDRDG](https://www.edrdg.org/edrdg/licence.html).
 
-La licenza del codice di questo progetto non è ancora stata scelta. Va decisa tenendo conto della clausola «share-alike» di KanjiVG.
+La licenza scelta per il codice è la MIT ([ADR-0002](docs/adr/0002-licenza-del-codice.md)). Verrà applicata con la separazione tra dati e codice ([ADR-0001](docs/adr/0001-separare-dati-e-codice.md)): i dati restano sotto le licenze indicate sopra.
