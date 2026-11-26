@@ -34,7 +34,14 @@ Adottare l'**opzione C**, per fasi:
 
 1. **Fase 1 – Web gratuita.** Pubblicazione online, con pubblicità solo se il consenso GDPR è gestito correttamente. Può essere necessario rinviare la pubblicità: i servizi pubblicitari possono rifiutare siti con poco contenuto. In ogni caso la pubblicità è una prova, non una fonte di reddito.
 2. **Fase 2 – App Android a pagamento (circa 0,99 €), senza pubblicità**, con funzionamento offline. Riusa il front end tramite wrapper (PWA/TWA o Capacitor); il backend Java serve solo per login e sincronizzazione, e non è necessario per la prima vendita.
-3. **Fase 3 – Traduzioni** (en, es, fr, de per primi), solo se le fasi precedenti mostrano interesse. Prima va verificata la licenza di ogni gruppo di glosse.
+3. **Fase 3 – Traduzioni dei significati, guidate dai dati.** Al lancio l'interfaccia è in **inglese e italiano**, mentre i significati (glosse di JMdict e KANJIDIC) restano in inglese, perché l'italiano non esiste nei dati di partenza. Dopo il lancio si misura da dove arrivano gli utenti e si traduce per primo il mercato più favorevole (vedi sotto).
+
+### Scelta delle lingue dopo il lancio
+
+- **Segnali:** download per paese (Google Play Console per l'app, statistiche web rispettose della privacy per la web app) e **lingua del browser/dispositivo**, che è più indicativa del paese (un italiano all'estero resta italiano).
+- **Soglia minima:** con pochi utenti i numeri sono rumore. Decidere solo dopo un campione minimo (da fissare, per esempio almeno 100 utenti attivi) e comunque non prima della revisione dei 3 mesi.
+- **Candidate:** inglese (già presente), spagnolo, francese, tedesco, olandese (le lingue con glosse disponibili in JMdict), più l'italiano come variante nativa.
+- **Italiano nativo:** prima tranche sui 2.136 kanji jōyō e circa 3.000 parole comuni, con bozza automatica e revisione a campione (stima: 15-20 ore). Le glosse tradotte sono un'opera derivata e vanno rilasciate in CC BY-SA 4.0 con i crediti dell'EDRDG (ADR-0001). Per ogni lingua vanno verificate la licenza e la copertura dei dati.
 
 ## Criteri di successo
 
