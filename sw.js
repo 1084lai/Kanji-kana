@@ -1,6 +1,6 @@
 // Service worker: dopo il primo caricamento l'app funziona senza rete.
 // Per pubblicare una nuova versione cambia VERSION: i file vecchi vengono eliminati.
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'kanji-kana-' + VERSION;
 const CORE = ['./', 'index.html', 'src/styles.css', 'src/main.js', 'src/data.js', 'src/util.js', 'src/draw.js',
   'src/app.js', 'src/progress.js', 'src/recognizer.js', 'src/romaji.js', 'src/reader.js', 'src/srs.js'];

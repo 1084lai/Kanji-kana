@@ -24,7 +24,8 @@ function css(v){ return getComputedStyle(document.documentElement).getPropertyVa
 function redraw(){
   ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
   ctx.strokeStyle = css('--line'); ctx.lineWidth = 1; ctx.setLineDash([5,5]);
-  ctx.beginPath(); ctx.moveTo(W/2,8); ctx.lineTo(W/2,H-8); ctx.moveTo(8,H/2); ctx.lineTo(W-8,H/2); ctx.stroke(); ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(W/2,0); ctx.lineTo(W/2,H); ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
+  ctx.globalAlpha = .45; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(W,H); ctx.moveTo(W,0); ctx.lineTo(0,H); ctx.stroke(); ctx.globalAlpha = 1; ctx.setLineDash([]);
   ctx.strokeStyle = css('--ink'); ctx.lineWidth = Math.max(5, W/55); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   const all = cur ? strokes.concat([cur]) : strokes;
   for (const s of all){

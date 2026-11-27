@@ -11,8 +11,9 @@
 <body>
 <div id="loading" class="loading">Caricamento…</div>
 <main>
-<nav class="tabs jp"><button id="tb-disegna" class="on">✏️ Disegna</button><button id="tb-kana">あ Kana</button><button id="tb-romaji">⇄ Romaji</button><button id="tb-leggi">📖 Leggi</button><button id="tb-carte">🃏 Carte</button><button id="tb-crediti">ℹ️ Crediti</button></nav>
+<nav class="tabs" aria-label="Sezioni"><button id="tb-disegna" class="on"><span class="tg" aria-hidden="true">描</span><span>Disegna</span></button><button id="tb-kana"><span class="tg" aria-hidden="true">仮</span><span>Kana</span></button><button id="tb-romaji"><span class="tg" aria-hidden="true">あA</span><span>Romaji</span></button><button id="tb-leggi"><span class="tg" aria-hidden="true">読</span><span>Leggi</span></button><button id="tb-carte"><span class="tg" aria-hidden="true">札</span><span>Carte</span></button><button id="tb-crediti"><span class="tg" aria-hidden="true">注</span><span>Crediti</span></button></nav>
 <div id="tab-draw-wrap"><div id="tab-disegna">
+<div class="pane-l">
 <h1>Trova il kanji disegnandolo <small id="count"></small></h1>
 <div id="padwrap"><canvas id="pad"></canvas><div id="hint" class="jp">Disegna qui un kanji, un tratto alla volta.<br>I risultati compaiono mentre scrivi.</div></div>
 <div class="bar">
@@ -22,6 +23,8 @@
   <button id="add" class="pri" disabled>Aggiungi al testo</button>
 </div>
 <div id="status"></div>
+</div>
+<div class="pane-r">
 <div id="cands" class="jp"></div>
 
 <section id="detail">
@@ -53,6 +56,7 @@
 </section>
 
 <p class="note">Usa i dati KanjiVG e KANJIDIC (vedi «Crediti»). Dopo il primo caricamento funziona anche senza rete. Vengono riconosciuti circa 6.400 kanji. Significati in inglese. Il riconoscimento tollera tratti storti, ma conta il numero di tratti: se non trovi il kanji, prova ad aggiungere o togliere un tratto.</p>
+</div>
 </div></div>
 <div id="tab-kana" hidden>
   <div class="seg"><button id="s-hira" class="on">Hiragana ひらがな</button><button id="s-kata">Katakana カタカナ</button></div>
